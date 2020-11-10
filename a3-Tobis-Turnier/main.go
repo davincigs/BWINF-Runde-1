@@ -19,8 +19,8 @@ func main() {
 func liga(player [8]int, ligaWinns [8]int, mostWinns int) {
 
 	for i := 0; i < 8; i++ {
-		for j := 0; player[i] > 8; j++ {
-			if player[i] > player[j] {
+		for j := 0; player[i] < 8; j++ {
+			if player[i] < player[j] {
 				ligaWinns[i] = ligaWinns[i] + 1
 			}
 		}
