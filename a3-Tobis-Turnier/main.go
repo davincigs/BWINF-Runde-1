@@ -32,5 +32,5 @@ func liga(player [8]int, ligaWinns [8]int, mostWinns int) {
 			mostWinns = k
 		}
 	}
-	fmt.Println("Spieler Nr. ", mostWinns, " hat die meisten Siege in der Liga Variante.")
+	fmt.Println("Spieler Nr.", mostWinns, "hat die meisten Siege in der Liga Variante.")
 }
