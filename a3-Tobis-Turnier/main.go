@@ -10,6 +10,8 @@ func main() {
 		return
 	} */
 
+	fmt.Println("Hallo, Theo!")
+
 	player := [8]int{8, 10, 20, 30, 40, 50, 60, 100}
 	ligaWinns := [8]int{0, 0, 0, 0, 0, 0, 0, 0}
 	mostWinns := 0
