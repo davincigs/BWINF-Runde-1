@@ -15,10 +15,10 @@ func main() {
 	player := [8]int{8, 10, 20, 30, 40, 50, 60, 100}
 	ligaWinns := [8]int{0, 0, 0, 0, 0, 0, 0, 0}
 	mostWinns := 0
-	min = 0
-	max = 0
+	min := 0
+	max := 0
 
-	liga(player, ligaWinns, mostWinns)
+	liga(player, ligaWinns, mostWinns, min, max)
 }
 func liga(player [8]int, ligaWinns [8]int, mostWinns int, min int, max int) {
 
