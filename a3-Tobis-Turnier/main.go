@@ -15,16 +15,23 @@ func main() {
 	player := [8]int{8, 10, 20, 30, 40, 50, 60, 100}
 	ligaWinns := [8]int{0, 0, 0, 0, 0, 0, 0, 0}
 	mostWinns := 0
+	min = 0
+	max = 0
 
 	liga(player, ligaWinns, mostWinns)
 }
-func liga(player [8]int, ligaWinns [8]int, mostWinns int) {
+func liga(player [8]int, ligaWinns [8]int, mostWinns int, min int, max int) {
 
 	for i := 0; i < 8; i++ {
-		for j := 0; player[i] < 8; j++ {
-			v := rand.Intn(0 - player[j] + player[i])
+		fmt.Println("erste for")
+		for j := 0; j < 8; j++ {
+			fmt.Println("zweite for")
+			min = 0
+			max = player[j] + player[i]
+			v := rand.Intn(min-max) + min
 			if v > player[j] {
 				ligaWinns[i] = ligaWinns[i] + 1
+				fmt.Println(ligaWinns, i)
 			}
 		}
 	}
