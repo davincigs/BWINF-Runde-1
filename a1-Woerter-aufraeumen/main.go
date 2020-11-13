@@ -32,25 +32,25 @@ func main() {
 }
 
 func readInSample(path string) (*Example, error) {
-	expl := new(Example)
 	file, err := os.Open(path)
 	if err != nil {
-		return expl, err
+		return nil, err
 	}
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 
-	line := 0
+	lines := []string{}
 	for scanner.Scan() {
-		switch line {
-		case 0:
-			expl.cloze = scanner.Text()
-		case 1:
-			expl.words = scanner.Text()
-		}
-		line++
+		lines = append(lines, scanner.Text())
 	}
 
-	return expl, nil
+	if len(lines) != 2 {
+		return nil, fmt.Errorf("file has %v lines, expected 2", len(lines))
+	}
+
+	return &Example{
+		cloze: lines[0],
+		words: lines[1],
+	}, nil
 }
