@@ -7,8 +7,7 @@ import (
 	"os"
 )
 
-const sampleFolder = "beispieldaten"
-const numOfSampleFiles = 5
+const samplePath = "beispieldaten/raetsel0.txt"
 
 // Example represents an example test file
 type Example struct {
@@ -17,19 +16,12 @@ type Example struct {
 }
 
 func main() {
-	examples := []*Example{}
-	for i := 0; i < numOfSampleFiles; i++ {
-		example, err := readInSample(fmt.Sprintf("%v/raetsel%v.txt", sampleFolder, i))
-		if err != nil {
-			log.Fatal(err)
-			return
-		}
-		examples = append(examples, example)
+	example, err := readInSample(samplePath)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	for _, val := range examples {
-		fmt.Println(val.cloze, val.words)
-	}
+	fmt.Println(example.cloze, example.words)
 }
 
 func readInSample(path string) (*Example, error) {
