@@ -69,7 +69,10 @@ func ko(player []int) {
 					}
 				}
 			}
+			fmt.Println(group[i][0])
+			//fmt.Println(group[i][1])
 		}
+		unique = false
 	}
 }
 func kox5() {
