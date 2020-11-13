@@ -43,9 +43,10 @@ func readInSample(path string) (*Example, error) {
 
 	line := 0
 	for scanner.Scan() {
-		if line == 0 {
+		switch line {
+		case 0:
 			expl.cloze = scanner.Text()
-		} else if line == 1 {
+		case 1:
 			expl.words = scanner.Text()
 		}
 		line++
