@@ -8,6 +8,7 @@ import (
 )
 
 const sampleFolder = "beispieldaten"
+const numOfSampleFiles = 5
 
 // Example represents an example test file
 type Example struct {
@@ -17,7 +18,7 @@ type Example struct {
 
 func main() {
 	examples := []*Example{}
-	for i := 0; i < 4; i++ {
+	for i := 0; i < numOfSampleFiles; i++ {
 		example, err := readInSample(fmt.Sprintf("%v/raetsel%v.txt", sampleFolder, i))
 		if err != nil {
 			log.Fatal(err)
