@@ -19,7 +19,7 @@ type Example struct {
 
 type DestructuredExample struct {
 	cloze      []string
-	extensions []string
+	extensions []rune
 	qualities  []bool
 	words      []string
 }
@@ -66,7 +66,7 @@ func delChar(s []rune, index int) []rune {
 func destructure(expl *Example) *DestructuredExample {
 	cloze := strings.Split(expl.cloze, " ")
 	words := strings.Split(expl.words, " ")
-	ext := []string{}
+	ext := []rune{}
 	qual := []bool{}
 
 	for i, gaps := range cloze {
@@ -78,15 +78,15 @@ func destructure(expl *Example) *DestructuredExample {
 				cloze[i] = gaps
 				letters++
 				if len(gaps) == j+1 {
-					ext = append(ext, "")
+					ext = append(ext, '-')
 				}
 			} else if gap == '_' {
 				cloze[i] = gaps
 				if len(gaps) == j+1 {
-					ext = append(ext, "")
+					ext = append(ext, '-')
 				}
 			} else {
-				ext = append(ext, string(gap))
+				ext = append(ext, gap)
 				cloze[i] = string(delChar([]rune(gaps), j))
 			}
 		}
@@ -103,6 +103,16 @@ func destructure(expl *Example) *DestructuredExample {
 	}
 }
 
+func isUsedWord(words []string, word string) bool {
+	for _, v := range words {
+		if v == word {
+			return true
+		}
+	}
+
+	return false
+}
+
 func solve(expl *Example) string {
 	destr := destructure(expl)
 
@@ -114,25 +124,13 @@ func solve(expl *Example) string {
 		result = append(result, "")
 	}
 
-	for _, word := range destr.words {
-		i := 0
-		for _, char := range word {
-			i++
-			fmt.Print(string(char))
-		}
-		fmt.Print(i)
-		fmt.Print(len(word))
-		fmt.Println("")
-	}
-
 	for i, gaps := range destr.cloze {
 		if destr.qualities[i] {
 			for _, word := range destr.words {
-				for j, gap := range gaps {
-					for k, char := range word {
+				for j, gap := range []rune(gaps) {
+					for k, char := range []rune(word) {
 						if gap == char {
-							fmt.Println(string(gap), string(char), len(gaps), len(word), gaps, word)
-							if len(gaps) == len(word) {
+							if len([]rune(gaps)) == len([]rune(word)) {
 								if j == k {
 									result[i] = word
 								}
@@ -144,17 +142,23 @@ func solve(expl *Example) string {
 		}
 	}
 
-	/* for i, gaps := range destr.cloze {
-		for _, word := range destr.words {
-			for _, usedWord := range result {
-				if word != usedWord {
-					if len(gaps) == len(word) {
+	for i, gaps := range destr.cloze {
+		if !destr.qualities[i] {
+			for _, word := range destr.words {
+				if len([]rune(gaps)) == len([]rune(word)) {
+					if !isUsedWord(result, word) {
 						result[i] = word
 					}
 				}
 			}
 		}
-	} */
+	}
 
-	return strings.Join(result, "")
+	for i := range result {
+		if destr.extensions[i] != '-' {
+			result[i] = result[i] + string(destr.extensions[i])
+		}
+	}
+
+	return strings.Join(result, " ")
 }
