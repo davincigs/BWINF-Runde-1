@@ -9,7 +9,7 @@ import (
 	"unicode"
 )
 
-const samplePath = "beispieldaten/raetsel0.txt"
+const samplePath = "beispieldaten/raetsel4.txt"
 
 // Example represents an example test file
 type Example struct {
@@ -29,8 +29,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println("Eingabe:", example.cloze, example.words)
 
 	fmt.Println(solve(example))
 }
@@ -116,8 +114,6 @@ func isUsedWord(words []string, word string) bool {
 func solve(expl *Example) string {
 	destr := destructure(expl)
 
-	fmt.Println(destr.words, destr.cloze, destr.extensions, destr.qualities)
-
 	result := []string{}
 
 	for range destr.words {
@@ -127,16 +123,36 @@ func solve(expl *Example) string {
 	for i, gaps := range destr.cloze {
 		if destr.qualities[i] {
 			for _, word := range destr.words {
+				matches := 0
 				for j, gap := range []rune(gaps) {
 					for k, char := range []rune(word) {
 						if gap == char {
 							if len([]rune(gaps)) == len([]rune(word)) {
 								if j == k {
-									result[i] = word
+									for _, sWord := range destr.words {
+										if len([]rune(word)) == len([]rune(sWord)) {
+											if []rune(word)[j] == []rune(sWord)[j] {
+												matches++
+											}
+										}
+									}
 								}
 							}
 						}
 					}
+				}
+				if matches == 1 {
+					result[i] = word
+				}
+			}
+		}
+	}
+
+	for i, gaps := range destr.cloze {
+		for _, word := range destr.words {
+			if len(gaps) == len(word) {
+				if !isUsedWord(result, word) {
+					result[i] = word
 				}
 			}
 		}
