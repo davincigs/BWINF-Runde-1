@@ -64,7 +64,7 @@ fn read_example(path: &str) -> Example {
     let num_of_gifts = lines[0].parse::<usize>().unwrap();
     let mut preferences = Vec::new();
 
-    for i in 1..num_of_gifts + 1 {
+    for i in 1..=num_of_gifts {
         let preference: Vec<usize> = lines[i]
             .split(" ")
             .map(|l| l.parse::<usize>().unwrap())
