@@ -1,13 +1,13 @@
+use rand::Rng;
 use std::fs::File;
 use std::io::prelude::*;
-use rand::Rng;
 
 const EXAMPLE_PATH: &str = "beispieldaten/wichteln1.txt";
 
 #[derive(Debug)]
 struct Example {
     num_of_gifts: usize,
-    preferences: Vec<(usize, usize, usize)>
+    preferences: Vec<(usize, usize, usize)>,
 }
 
 fn generate_random_assignment(n: usize) -> Vec<usize> {
@@ -29,9 +29,7 @@ fn generate_random_assignment(n: usize) -> Vec<usize> {
 }
 
 fn main() {
-
     let example = read_example(EXAMPLE_PATH);
-    
 
     let mut result = 0;
     let mut assignment;
@@ -66,8 +64,11 @@ fn read_example(path: &str) -> Example {
     let num_of_gifts = lines[0].parse::<usize>().unwrap();
     let mut preferences = Vec::new();
 
-    for i in 1..lines.len() {
-        let preference: Vec<usize> = lines[i].split(" ").map(|l| l.parse::<usize>().unwrap()).collect();
+    for i in 1..num_of_gifts + 1 {
+        let preference: Vec<usize> = lines[i]
+            .split(" ")
+            .map(|l| l.parse::<usize>().unwrap())
+            .collect();
         preferences.push((preference[0], preference[1], preference[2]));
     }
 
